@@ -83,6 +83,11 @@ public:
         glUniform1f(glGetUniformLocation(shaderProgram, name.c_str()), value);
     }
 
+    void setBool(const std::string& name, bool value) const
+    {
+        glUniform1i(glGetUniformLocation(shaderProgram, name.c_str()), value);
+    }
+
     std::string loadShader(const char *shaderPath)
     {
         std::string shaderCode;
