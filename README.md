@@ -27,15 +27,11 @@
 
 <!-- PROJECT LOGO -->
 <br />
-<div align="center">
-  <a href="https://github.com/voidblob/RNDEngine">
-    <img src="images/logo.png" alt="Logo" width="80" height="80">
-  </a>
 
 <h3 align="center">RNDEngine - A 3D Graphics Rendering Engine</h3>
 
   <p align="center">
-    project_description
+    A C++ 3D graphics engine using OpenGL, GLFW, ImGUI, and Assimp. Features real-time scene editing, face culling for performance, deferred shading, and model loading/editing.
     <br />
     <a href="https://github.com/voidblob/RNDEngine"><strong>Explore the docs »</strong></a>
     <br />
@@ -70,8 +66,6 @@
     <li><a href="#usage">Usage</a></li>
     <li><a href="#roadmap">Roadmap</a></li>
     <li><a href="#contributing">Contributing</a></li>
-    <li><a href="#license">License</a></li>
-    <li><a href="#contact">Contact</a></li>
     <li><a href="#acknowledgments">Acknowledgments</a></li>
   </ol>
 </details>
@@ -80,10 +74,19 @@
 
 <!-- ABOUT THE PROJECT -->
 ## About The Project
+![Showcase](https://raw.githubusercontent.com/voidblob/RNDEngine/master/demo.png)
 
-[![Product Name Screen Shot][product-screenshot]](https://example.com)
+<h5>Key Features</h5>
+<ol>
+  <li>Real-Time Scene Editing: Dynamic modification of scenes for efficient development.</li>
+  <li>Face Culling: Improved rendering performance by skipping non-visible faces.</li>
+  <li>Deferred Shading: Enhanced rendering efficiency with realistic lighting effects.</li>
+  <li>
+Model Loading/Editing: Seamless 3D model integration and in-app editing with Assimp.</li>
+</ol>
 
-Here's a blank template to get started: To avoid retyping too much info. Do a search and replace with your text editor for the following: `voidblob`, `RNDEngine`, `twitter_handle`, `linkedin_username`, `email_client`, `email`, `RNDEngine`, `project_description`
+
+
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
@@ -91,15 +94,10 @@ Here's a blank template to get started: To avoid retyping too much info. Do a se
 
 ### Built With
 
-* [![Next][Next.js]][Next-url]
-* [![React][React.js]][React-url]
-* [![Vue][Vue.js]][Vue-url]
-* [![Angular][Angular.io]][Angular-url]
-* [![Svelte][Svelte.dev]][Svelte-url]
-* [![Laravel][Laravel.com]][Laravel-url]
-* [![Bootstrap][Bootstrap.com]][Bootstrap-url]
-* [![JQuery][JQuery.com]][JQuery-url]
-
+* [![C++][C++]][C++-url]
+* [![Make][Cmake]][Cmake-url]
+* [![OpenGL][OpenGL]][OpenGL-url]
+  
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
 
@@ -107,32 +105,39 @@ Here's a blank template to get started: To avoid retyping too much info. Do a se
 <!-- GETTING STARTED -->
 ## Getting Started
 
-This is an example of how you may give instructions on setting up your project locally.
-To get a local copy up and running follow these simple example steps.
+The following instructions are a general installation guide for MacOS/Linux. To install on windows, download visual studio and create a new project using this repo's code as existing files. 
 
 ### Prerequisites
 
-This is an example of how to list things you need to use the software and how to install them.
-* npm
+
+* Cmake
+  MacOS/Linux
   ```sh
-  npm install npm@latest -g
+  brew install cmake
+  sudo apt-get install cmake
   ```
+* Visual Studio (latest version) - Windows
+* <a href="https://visualstudio.microsoft.com/free-developer-offers/
+">Community Version Download</a>
+  
 
 ### Installation
 
-1. Get a free API Key at [https://example.com](https://example.com)
-2. Clone the repo
+
+1. Clone the repo
    ```sh
    git clone https://github.com/voidblob/RNDEngine.git
    ```
-3. Install NPM packages
+2. Go into the Build directory and run the following commands
    ```sh
-   npm install
+   cmake ..
+   make
+   ./main
    ```
-4. Enter your API in `config.js`
-   ```js
-   const API_KEY = 'ENTER YOUR API';
-   ```
+<h5>On Windows</h5>
+
+1. Create a new project with existing files (selecting the root folder of this repo)
+2. In solution settings, add all include directories, library directories, and source directories to the file path
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
@@ -141,9 +146,49 @@ This is an example of how to list things you need to use the software and how to
 <!-- USAGE EXAMPLES -->
 ## Usage
 
-Use this space to show useful examples of how a project can be used. Additional screenshots, code examples and demos work well in this space. You may also link to more resources.
+To use the engine, load in your own models by putting them in /resources/model_folder_name/.
 
-_For more examples, please refer to the [Documentation](https://example.com)_
+1. Edit the model file path in Source.cpp
+```cpp
+const string modelPath = "RNDEngine/resources/model_folder_name/model_name.obj";
+```
+
+To change the skybox, load your cubemap texture by putting each face in resources/skybox/
+
+1. Edit the cubemap file path vector in Source.cpp
+```cpp
+ vector<std::string> faces
+    {
+        "RNDEngine/resources/skybox/your_skybox/right.jpg",
+        "RNDEngine/resources/skybox/your_skybox/left.jpg",
+        "RNDEngine/resources/skybox/your_skybox/top.jpg",
+        "RNDEngine/resources/skybox/your_skybox/bottom.jpg",
+        "RNDEngine/resources/skybox/your_skybox/front.jpg",
+        "RNDEngine/resources/skybox/your_skybox/back.jpg"
+
+    };
+```
+
+If you want to change the code yourself (add more objects/create your own scene), 
+1. You can create and load your own shaders using the Shader class:
+```cpp
+ Shader MyShader(MyShaderPath);
+//Set uniforms
+ MyShader.SetVec3(some uniform);
+ MyShader.setMat4(some uniform);
+//Etc
+```
+2. You can create your own model and load it using the Model class:
+```cpp
+ Model MyModel(MyModelPath);
+//Draw model using built-in model shader or your own
+ while(!window.shouldClose()){
+ ...
+ MyModel.draw(MyShader);
+ ...
+
+ }
+```
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
@@ -152,10 +197,10 @@ _For more examples, please refer to the [Documentation](https://example.com)_
 <!-- ROADMAP -->
 ## Roadmap
 
-- [ ] Feature 1
-- [ ] Feature 2
-- [ ] Feature 3
-    - [ ] Nested Feature
+- [ ] Better portability/build system
+- [ ] More customizability by adding more configurable options in the ImGUI menu
+- [ ] Level-generation
+
 
 See the [open issues](https://github.com/voidblob/RNDEngine/issues) for a full list of proposed features (and known issues).
 
@@ -181,32 +226,20 @@ Don't forget to give the project a star! Thanks again!
 
 
 
-<!-- LICENSE -->
-## License
-
-Distributed under the MIT License. See `LICENSE.txt` for more information.
-
-<p align="right">(<a href="#readme-top">back to top</a>)</p>
 
 
 
-<!-- CONTACT -->
-## Contact
-
-Your Name - [@twitter_handle](https://twitter.com/twitter_handle) - email@email_client.com
-
-Project Link: [https://github.com/voidblob/RNDEngine](https://github.com/voidblob/RNDEngine)
-
-<p align="right">(<a href="#readme-top">back to top</a>)</p>
 
 
 
 <!-- ACKNOWLEDGMENTS -->
 ## Acknowledgments
 
-* []()
-* []()
-* []()
+* [OpenGL]()
+* [Assimp]()
+* [ImGUI]()
+* [GLFW]()
+* [GLAD]()
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
@@ -226,13 +259,13 @@ Project Link: [https://github.com/voidblob/RNDEngine](https://github.com/voidblo
 [license-url]: https://github.com/voidblob/RNDEngine/blob/master/LICENSE.txt
 [linkedin-shield]: https://img.shields.io/badge/-LinkedIn-black.svg?style=for-the-badge&logo=linkedin&colorB=555
 [linkedin-url]: https://linkedin.com/in/linkedin_username
-[product-screenshot]: images/screenshot.png
-[Next.js]: https://img.shields.io/badge/next.js-000000?style=for-the-badge&logo=nextdotjs&logoColor=white
-[Next-url]: https://nextjs.org/
-[React.js]: https://img.shields.io/badge/React-20232A?style=for-the-badge&logo=react&logoColor=61DAFB
-[React-url]: https://reactjs.org/
-[Vue.js]: https://img.shields.io/badge/Vue.js-35495E?style=for-the-badge&logo=vuedotjs&logoColor=4FC08D
-[Vue-url]: https://vuejs.org/
+[product-screenshot]: https://github.com/voidblob/RNDEngine/blob/master/demo.png
+[C++]: https://img.shields.io/badge/c++-%2300599C.svg?style=for-the-badge&logo=c%2B%2B&logoColor=white
+[C++-url]: https://cplusplus.com/
+[OpenGL]: https://img.shields.io/badge/OpenGL-%23FFFFFF.svg?style=for-the-badge&logo=opengl
+[OpenGL-url]: https://www.opengl.org/
+[Cmake]: https://img.shields.io/badge/CMake-%23008FBA.svg?style=for-the-badge&logo=cmake&logoColor=white
+[Cmake-url]: https://cmake.org/
 [Angular.io]: https://img.shields.io/badge/Angular-DD0031?style=for-the-badge&logo=angular&logoColor=white
 [Angular-url]: https://angular.io/
 [Svelte.dev]: https://img.shields.io/badge/Svelte-4A4A55?style=for-the-badge&logo=svelte&logoColor=FF3E00
